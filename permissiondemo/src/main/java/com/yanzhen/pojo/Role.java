@@ -12,7 +12,7 @@ public class Role implements Serializable {
     private Integer type;       //0分类,1角色
     private String name;        //角色名
     private String remarks;     //备注
-    private Integer create_by;
+    private Integer createBy;
     private Date createTime;
     private Date updateTime;
 }

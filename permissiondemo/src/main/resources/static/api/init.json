@@ -17,7 +17,7 @@
       "child": [
         {
           "title": "部门管理",
-          "href": "pages/dept.html",
+          "href": "dept",
           "icon": "fa fa-window-maximize",
           "target": "_self"
         },
