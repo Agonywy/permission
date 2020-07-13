@@ -1,0 +1,22 @@
+部门管理功能需求
+功能列表
+1.可以对部门信息进行折叠和展开演示
+2.添加功能(公司>部门>科室/小组)
+(1)公司下面添加部门
+(2)部门下面添加科室,科室下面不允许添加其他
+3.修改功能
+4.删除功能：删除当前节点和所有的子节点
+
+功能实现
+1.部门的查询操作
+1.1创建controller层
+(1)访问/dept,return "pages/dept";解析到dept.html页面
+(2)在dept.html中修改目录的url路径dept/deptAll,发起请求获取json数据进行填充
+(3)添加thymeleaf相关约束,通过thymeleaf进行css,js的引入
+(4)更改json数据格式,编写JsonObject对象封装json数据返回,渲染页面
+1.2创建dao层,mapper.xml文件
+(1)添加约束头部
+(2)编写sql语句
+1.2创建service层实现类
+(1)编写接口,实现类
+(2)调用dao层方法返回数据给controller
