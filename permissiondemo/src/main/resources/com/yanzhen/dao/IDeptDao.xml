@@ -8,4 +8,9 @@
         select * from dept ;
     </select>
 
+    <!--添加部门信息-->
+    <insert id="addDept" parameterType="com.yanzhen.pojo.Dept">
+        insert into dept(parent_id, name, type, sort, status, create_time) VALUES
+        (#{parentId},#{name},#{type},#{sort},#{status},#{createTime})
+    </insert>
 </mapper>

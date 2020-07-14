@@ -17,4 +17,9 @@ public class IDeptServiceImpl implements IDeptService
     public List<Dept> queryDeptAll() {
         return iDeptDao.queryDeptAll();
     }
+
+    @Override
+    public void addDept(Dept dept) {
+        iDeptDao.addDept(dept);
+    }
 }

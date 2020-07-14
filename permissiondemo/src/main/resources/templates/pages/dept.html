@@ -108,6 +108,20 @@
                 layer.msg('删除' + data.id);
             } else if (layEvent === 'edit') {
                 layer.msg('修改' + data.id);
+            }else{
+                //添加操作
+                var index = layer.open({
+                    title: '添加部门',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '50%'],
+                    content: 'addDept?type='+data.type+'&parentId='+data.id,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
             }
         });
     });
