@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
-
+//    @ResponseBody注解表示该方法的返回的结果直接写入 HTTP 响应正文中,一般在异步获取数据时使用；
+//    在使用@RequestMapping后,返回值通常解析为跳转路径,加上@Responsebody后返回结果不会被解析为跳转路径,
+//    而是直接写入HTTP 响应正文中.例如,异步获取json数据,加上@Responsebody注解后,就会直接返回json数据.
 @Controller
 public class DeptController {
     @Autowired
@@ -44,11 +46,19 @@ public class DeptController {
         return R.ok();
     }
 
+    //更改部门信息
+    @ResponseBody
+    @RequestMapping("dept/updateDeptSubmit")
+    public R updateDept(Dept dept){
+        deptService.updateDept(dept);
+        return R.ok();
+    }
+
     /**
      * 页面的渲染使用
      * 当我访问dept,就会去pages/dept页面,然后前端会向指定url请求数据,然后完成填充
      */
-    @RequestMapping("dept")
+    @RequestMapping("/dept")
     public String deptIndex(){
         return "pages/dept";
     }

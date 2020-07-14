@@ -15,4 +15,13 @@ public interface IDeptDao {
      * 添加部门信息
      */
     void addDept(Dept dept);
+    /**
+     * 根据部门id查询部门信息
+     */
+    Dept queryDeptById(Integer id);
+
+    /**
+     * 修改操作
+     */
+    void updateDept(Dept dept);
 }

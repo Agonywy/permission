@@ -13,4 +13,14 @@
         insert into dept(parent_id, name, type, sort, status, create_time) VALUES
         (#{parentId},#{name},#{type},#{sort},#{status},#{createTime})
     </insert>
+    <!--根据部门id查询部门信息-->
+    <select id="queryDeptById" parameterType="integer" resultType="com.yanzhen.pojo.Dept">
+        select * from dept;
+    </select>
+
+    <!--修改部门信息-->
+    <update id="updateDept" parameterType="com.yanzhen.pojo.Dept">
+        update dept set name = #{name},sort = #{sort},status=#{status}
+        where id = #{id}
+    </update>
 </mapper>
