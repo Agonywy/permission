@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>menu</title>
-    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
-    <link rel="stylesheet" href="../css/public.css" media="all">
+    <link rel="stylesheet"   th:href="@{lib/layui-v2.5.5/css/layui.css}"   media="all">
+    <link rel="stylesheet"  th:href="@{css/public.css}"   media="all">
     <style>
         .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
             height: 34px;
@@ -14,6 +14,11 @@
     </style>
 </head>
 <body>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheakData">添加目录/导航菜单</button>
+    </div>
+</script>
 <div class="layuimini-container">
     <div class="layuimini-main">
 
@@ -28,12 +33,18 @@
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="auth-state">
+    {{# if (d.type=='2'){ }}
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{# }else{  }}
+    <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{# } }}
 </script>
 
-<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
-<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script th:src="@{lib/layui-v2.5.5/layui.js}"  charset="utf-8"></script>
+<script  th:src="@{js/lay-config.js?v=1.0.4}" charset="utf-8"></script>
 <script>
     layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery;
@@ -48,28 +59,33 @@
             treeIdName: 'authorityId',
             treePidName: 'parentId',
             elem: '#munu-table',
-            url: '../api/menus.json',
+            url: 'menu/menuAll',
+            treeDefaultClose:true,//默认是一个折叠的树
+            toolbar:'#toolbarDemo',
             page: false,
-            cols: [[
-                {type: 'numbers'},
-                {field: 'authorityName', minWidth: 200, title: '权限名称'},
-                {field: 'authority', title: '权限标识'},
-                {field: 'menuUrl', title: '菜单url'},
-                {field: 'orderNumber', width: 80, align: 'center', title: '排序号'},
-                {
-                    field: 'isMenu', width: 80, align: 'center', templet: function (d) {
-                        if (d.isMenu == 1) {
-                            return '<span class="layui-badge layui-bg-gray">按钮</span>';
+            cols: [
+                [
+                    {type: 'numbers'},
+                    {field: 'name', width: 240, title: '菜单名称'},
+                    {field: 'type', title: '类型',width:100,
+                        templet:function(res){
+                            if(res.type=='0'){//类型。0：目录；1：菜单；2：按钮；3：导航菜单
+                                return '<span class="layui-badge layui-bg-blue">目录</span>';
+                            }else if(res.type=='1'){
+                                return '<span class="layui-badge-rim">菜单</span>';
+                            }else if(res.type=='2'){
+                                return '<span class="layui-badge layui-bg-gray">按钮</span>';
+                            }else{
+                                return '<span class="layui-badge ">导航菜单</span>';
+                            }
                         }
-                        if (d.parentId == -1) {
-                            return '<span class="layui-badge layui-bg-blue">目录</span>';
-                        } else {
-                            return '<span class="layui-badge-rim">菜单</span>';
-                        }
-                    }, title: '类型'
-                },
-                {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
-            ]],
+                    },
+                    {field: 'url', title: 'URL',width:200},
+                    {field: 'permission', width: 200, align: 'center', title: '权限标识'},
+                    {field: 'sort', width: 100, align: 'center', title: '排序号'},
+                    {templet: '#auth-state', width: 200, align: 'center', title: '操作'}
+                ]
+            ],
             done: function () {
                 layer.closeAll('loading');
             }
@@ -83,6 +99,35 @@
             treetable.foldAll('#munu-table');
         });
 
+        /**
+         * 监听事件
+         */
+        table.on('toolbar(munu-table)',function (obj) {
+            var layEvent = obj.event;
+            if(layEvent === 'getCheakData'){
+                add('addMenu?type=-1&parentId=-1');
+            }
+        });
+
+        /**
+         * 添加功能js函数
+         */
+        function add(content){
+          //弹出添加页面
+            var index = layer.open({
+                title: '添加菜单',
+                type: 2,
+                shade: 0.2,
+                maxmin:true,
+                shadeClose: true,
+                area: ['50%', '50%'],
+                content: content,
+            });
+            $(window).on("resize", function () {
+                layer.full(index);
+            });
+        };
+
         //监听工具条
         table.on('tool(munu-table)', function (obj) {
             var data = obj.data;
@@ -92,6 +137,9 @@
                 layer.msg('删除' + data.id);
             } else if (layEvent === 'edit') {
                 layer.msg('修改' + data.id);
+            } else{
+                layer.msg("添加功能")
+                add('addMenu?type='+data.type+'&parentId='+data.id);
             }
         });
     });

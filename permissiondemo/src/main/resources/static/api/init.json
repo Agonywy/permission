@@ -30,7 +30,7 @@
 		
         {
           "title": "菜单管理",
-          "href": "pages/menu.html",
+          "href": "menu",
           "icon": "fa fa-window-maximize",
           "target": "_self"
         },

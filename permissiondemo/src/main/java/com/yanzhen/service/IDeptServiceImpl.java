@@ -31,4 +31,9 @@ public class IDeptServiceImpl implements IDeptService {
     public void updateDept(Dept dept) {
         deptDao.updateDept(dept);
     }
+
+    @Override
+    public void deleteDeptById(Integer id) {
+        deptDao.deleteDeptById(id);
+    }
 }

@@ -45,3 +45,4 @@ DispatcherServlet找到addDept方法,拿到type和id,转发到pages/addDept页�
 3.1页面整理,编写弹出层
 3.2controller(dept/updateDeptSubmit)--service--dao--mapper.xml(update)
 3.3前台页面封装数据,通过ajax发送异步请求将数据post到后台
+

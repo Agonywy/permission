@@ -53,6 +53,14 @@ public class DeptController {
         deptService.updateDept(dept);
         return R.ok();
     }
+    //根据id删除部门信息
+
+    @RequestMapping("dept/deleteDeptByID")
+    @ResponseBody
+    public R deleteDeptById(Integer id){
+        deptService.deleteDeptById(id);
+        return R.ok();
+    }
 
     /**
      * 页面的渲染使用

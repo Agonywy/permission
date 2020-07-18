@@ -23,4 +23,12 @@
         update dept set name = #{name},sort = #{sort},status=#{status}
         where id = #{id}
     </update>
+    <!--根据id删除部门信息-->
+    <delete id="deleteDeptById" parameterType="integer">
+         delete from dept where id=#{id} or id in (SELECT t3.id FROM
+	        ( SELECT *, IF (find_in_set(t1.parent_Id, @p) >0,@p:= concat(@p,',',id),0) AS childId FROM
+			(SELECT id,parent_Id FROM 	dept t 	 	ORDER BY id) t1,
+            (SELECT @p:= #{id} ) t2 ) t3 WHERE	childId != 0) ;
+    </delete>
+
 </mapper>

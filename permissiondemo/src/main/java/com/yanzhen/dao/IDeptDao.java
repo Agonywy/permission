@@ -24,4 +24,8 @@ public interface IDeptDao {
      * 修改操作
      */
     void updateDept(Dept dept);
+    /**
+     * 根据id删除部门信息
+     */
+    void deleteDeptById(Integer id);
 }
