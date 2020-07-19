@@ -44,6 +44,35 @@ public class MenuController {
         menuService.addMenuSubmit(menu);
         return R.ok();
     }
+    /**
+     * 根据菜单Id删除菜单及其子节点
+     */
+    @RequestMapping("menu/deleteMenuById")
+    @ResponseBody
+    public R deleteMenuById(Integer id){
+        menuService.deleteMenuById(id);
+        return R.ok();
+    }
+    /**
+     * 根据菜单Id查询菜单信息
+     */
+    @RequestMapping("menu/selectMenuById")
+    public String selectMenuById(Integer id, Model model){
+        Menu menu = menuService.selectMenuById(id);
+        //逐个设定值信息
+        model.addAttribute("menu",menu);
+        return "pages/updateMenu";
+    }
+
+    /**
+     * 更改菜单信息
+     */
+    @ResponseBody
+    @RequestMapping("menu/updateMenuSubmit")
+    public R updateMenuSubmit(Menu menu){
+        menuService.updateMenuSubmit(menu);
+        return R.ok();
+    }
 
     /**
      * 静态页面的跳转菜单页面

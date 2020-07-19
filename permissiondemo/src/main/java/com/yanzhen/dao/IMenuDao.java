@@ -13,4 +13,15 @@ public interface IMenuDao {
     List<Menu> queryMenuAll();
 
     void addMenu(Menu menu);
+
+    void deleteMenuById(Integer id);
+
+    /**
+     * 根据菜单id查询菜单详情
+     */
+    Menu selectMenuById(Integer id);
+    /**
+     * 修改菜单信息
+     */
+    void updateMenuSubmit(Menu menu);
 }

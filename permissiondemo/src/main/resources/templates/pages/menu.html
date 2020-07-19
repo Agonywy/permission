@@ -132,11 +132,44 @@
         table.on('tool(munu-table)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-
             if (layEvent === 'del') {
-                layer.msg('删除' + data.id);
+                layer.confirm("真的要删除吗?",function (index) {
+                    //直接向服务器发送删除指令
+                    $.ajax({
+                        url: 'menu/deleteMenuById',
+                        data: {id: data.id},
+                        success: function (suc) {
+                            if(suc.code == 200){
+                                layer.close(index);
+                                layer.msg("删除成功!");
+                                parent.window.location.reload();
+                            }else{
+                                layer.msg("删除失败!");
+                            }
+                        }
+                    })
+                })
             } else if (layEvent === 'edit') {
-                layer.msg('修改' + data.id);
+                /**
+                 * 换一种方式:这次使用先从数据库查到数据进行渲染然后进行修改
+                 */
+                //弹出修改页面
+                var index = layer.open({
+                    title: '添加菜单',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '50%'],
+                    //方式1.获取当前行的信息渲染到弹出层form单
+                    //方式2.通过点击记录的id查询数据信息渲染到页面上
+                    content: 'menu/selectMenuById?id='+data.id
+                });
+
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+
             } else{
                 layer.msg("添加功能")
                 add('addMenu?type='+data.type+'&parentId='+data.id);

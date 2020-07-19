@@ -22,4 +22,20 @@ public class IMenuServiceImpl implements IMenuService{
     public void addMenuSubmit(Menu menu) {
         menuDao.addMenu(menu);
     }
+
+    @Override
+    public void deleteMenuById(Integer id) {
+        menuDao.deleteMenuById(id);
+    }
+
+    @Override
+    public Menu selectMenuById(Integer id) {
+        Menu menu = menuDao.selectMenuById(id);
+        return menu;
+    }
+
+    @Override
+    public void updateMenuSubmit(Menu menu) {
+        menuDao.updateMenuSubmit(menu);
+    }
 }
