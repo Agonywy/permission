@@ -36,7 +36,7 @@
         },
         {
           "title": "角色管理",
-          "href": "pages/role.html",
+          "href": "role",
           "icon": "fa fa-window-maximize",
           "target": "_self"
         },

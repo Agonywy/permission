@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzhen.dao.IRoleDao">
+    <select id="queryRoleAll" resultType="com.yanzhen.pojo.Role">
+        select * from role order by type ASC
+    </select>
+    <select id="queryRoleById" parameterType="integer" resultType="com.yanzhen.pojo.Role">
+        select * from role where id = #{id};
+    </select>
+    <insert id="addRoleSubmit" parameterType="com.yanzhen.pojo.Role">
+        insert into role(parent_id,name,remarks,type,create_time)values
+        (#{parentId},#{name},#{remarks},#{type},#{createTime})
+    </insert>
+    <update id="updateRole" parameterType="integer">
+        update role
+        <set>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="remarks!=null">
+                remarks = #{remarks},
+            </if>
+            <if test="updateTime!=null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteRoleById" parameterType="integer">
+        delete from role where id=#{id} or id in (SELECT t3.id FROM
+                ( SELECT *, IF (find_in_set(t1.parent_Id, @p) >0,@p:= concat(@p,',',id),0) AS childId FROM
+                (SELECT id,parent_Id FROM 	role t 	 	ORDER BY id) t1,
+                (SELECT @p:= #{id} ) t2 ) t3 WHERE	childId != 0) ;
+
+    </delete>
+
+</mapper>
