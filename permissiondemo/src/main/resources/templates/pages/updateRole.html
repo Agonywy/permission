@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改角色</title>
+    <link rel="stylesheet"  th:href="@{../lib/layui-v2.5.5/css/layui.css}" media="all">
+    <link rel="stylesheet"  th:href="@{../css/public.css}" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <!--后台传过来role,直接进行渲染-->
+    <input type="hidden" name="id" th:value="${role.id}">
+    <input type="hidden" name="parentId" th:value="${role.parentId}">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" lay-reqtext="名称不能为空" placeholder="请输入名称" th:value="${role.name}" class="layui-input">
+        </div>
+    </div>
+    <!--备注-->
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="remarks" class="layui-textarea" th:text="${role.remarks}" > </textarea>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="updateBtn">确认修改</button>
+        </div>
+    </div>
+</div>
+<script th:src="@{../lib/layui-v2.5.5/layui.js}"  charset="utf-8"></script>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(updateBtn)', function (data) {
+            var datas = data.field;
+            //通过ajax发起异步请求进行部门信息添加操作
+            $.ajax({
+                <!--后台返回menu的时候已经带了一个目录信息,所以这里用相对路径-->
+                url: "../role/updateRoleSubmit",
+                type: "POST",
+                data: datas,
+                success:function (result) {
+                    //把json对象转成字符串
+                    //result = JSON.parse(result);
+                    if(result.code == 200){
+                        layer.msg("修改成功",{
+                            icon:6,
+                            time:500,
+                        },function () {
+                            //重新加载页面
+                            parent.window.location.reload();
+                            //关闭弹出页
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    }else{
+                        layer.msg("修改失败")
+                    }
+                }
+            })
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -149,7 +149,7 @@
             } else if (layEvent === 'edit') {
                 //弹出修改页面
                 var index = layer.open({
-                        title: '编辑角色',
+                        title: '修改角色',
                         type: 2,
                         shade: 0.2,
                         maxmin:true,
@@ -157,7 +157,7 @@
                         area: ['50%', '50%'],
                         //方式1.获取当前行的信息渲染到弹出层form单
                         //方式2.通过点击记录的id查询数据信息渲染到页面上
-                        content: 'role/queryMenuById?id='+data.id
+                        content: 'role/queryRoleById?id='+data.id
                     });
 
                 $(window).on("resize", function () {

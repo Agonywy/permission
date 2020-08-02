@@ -1,7 +1,6 @@
 package com.yanzhen.controller;
 
 import com.yanzhen.pojo.Role;
-import com.yanzhen.pojo.RoleMenu;
 import com.yanzhen.service.IRoleService;
 import com.yanzhen.util.JsonObject;
 import com.yanzhen.util.R;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,14 +84,7 @@ public class RoleController {
     @RequestMapping("role/addPermSubmit")
     @ResponseBody
     public R addPermSubmit(int roleId, int[] ids){
-
-        roleService.deleteRoleById(roleId);
-        List<RoleMenu> list = new ArrayList<>();
-        for (int id : ids) {
-            RoleMenu roleMenu = new RoleMenu(roleId,id);
-            list.add(roleMenu);
-        }
-        roleService.insertFormEach(list);
+        roleService.insertFormEach(roleId,ids);
         return R.ok();
     }
 
@@ -114,9 +105,25 @@ public class RoleController {
     public String roleMenu(){
         return "pages/role";
     }
+
     /**
-     * 页面渲染
+     * 进行角色页面的修改跳转
      */
+    @RequestMapping("role/queryRoleById")
+    public String queryRoleById(Model model,int id){
+        //根据id查询角色信息,返回前台
+        Role role = roleService.queryRoleById(id);
+        model.addAttribute("role",role);
+        return "pages/updateRole";
+    }
+
+    @RequestMapping("role/updateRoleSubmit")
+    @ResponseBody
+    public R updateRoleSubmit(Role role){
+        role.setUpdateTime(new Date());
+        roleService.updateRole(role);
+        return R.ok();
+    }
 
 
 }

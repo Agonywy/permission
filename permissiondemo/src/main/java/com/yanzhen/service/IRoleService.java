@@ -17,7 +17,7 @@ public interface IRoleService {
     /**
      * 根据id查询角色信息
      */
-    public Role queryRoleById(Integer id);
+    Role queryRoleById(Integer id);
     /**
      * 修改功能
      */
@@ -30,11 +30,11 @@ public interface IRoleService {
     /**
      * 先根据角色删除原来的关联关系权限
      */
-    void deleteRoleById(int id);
+    void deleteRoleMenuByRoleId(int id);
 
     /**
      * 批量进行角色权限关联
      */
-    void insertFormEach(List ids);
+    void insertFormEach(int roleId,int[] ids);
 
 }

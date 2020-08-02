@@ -2,9 +2,12 @@ package com.yanzhen.service;
 
 import com.yanzhen.dao.IRoleDao;
 import com.yanzhen.pojo.Role;
+import com.yanzhen.pojo.RoleMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("roleService")
@@ -39,12 +42,19 @@ public class IRoleServiceImpl implements IRoleService{
     }
 
     @Override
-    public void deleteRoleById(int id) {
+    public void deleteRoleMenuByRoleId(int id) {
         roleDao.deleteRoleMenuByRoleId(id);
     }
 
     @Override
-    public void insertFormEach(List roleMenuList) {
-        roleDao.insertFormEach(roleMenuList);
+    @Transactional
+    public void insertFormEach(int roleId,int[] ids) {
+        this.deleteRoleMenuByRoleId(roleId);
+        List<RoleMenu> list = new ArrayList<>();
+        for (int id : ids) {
+            RoleMenu roleMenu = new RoleMenu(roleId,id);
+            list.add(roleMenu);
+        }
+        roleDao.insertFormEach(list);
     }
 }
