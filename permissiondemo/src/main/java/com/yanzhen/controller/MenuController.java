@@ -1,9 +1,12 @@
 package com.yanzhen.controller;
 
 import com.yanzhen.pojo.Menu;
+import com.yanzhen.pojo.Node;
+import com.yanzhen.pojo.RoleMenu;
 import com.yanzhen.service.IMenuService;
 import com.yanzhen.util.JsonObject;
 import com.yanzhen.util.R;
+import com.yanzhen.util.TreeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,9 @@ public class MenuController {
 
     @Autowired
     IMenuService menuService;
+
+    @Autowired
+    TreeBuilder treeBuilder;
 
     /**
      * 查询所有菜单信息
@@ -56,7 +62,7 @@ public class MenuController {
     /**
      * 根据菜单Id查询菜单信息
      */
-    @RequestMapping("menu/selectMenuById")
+    @RequestMapping("menu/queryMenuById")
     public String selectMenuById(Integer id, Model model){
         Menu menu = menuService.selectMenuById(id);
         //逐个设定值信息
@@ -73,6 +79,34 @@ public class MenuController {
         menuService.updateMenuSubmit(menu);
         return R.ok();
     }
+
+
+    /**
+     * 获取树状结构的数据
+     */
+    @RequestMapping("menu/queryMenuTree")
+    @ResponseBody
+    public Object queryMenuTree(int id){
+        //查询Node数据(查询获取树状结构的菜单)
+        List<Node> nodes = menuService.queryMenuTree();
+        //根据角色查询关联到的菜单,将checked属性设置为true,默认选中
+        List<RoleMenu> roleMenus = menuService.queryMenuByRoleId(id);
+        //渲染已经选中的菜单权限
+        for (RoleMenu roleMenu : roleMenus) {
+            //获取当前对象的菜单id
+            int menuId = roleMenu.getMenuId();
+            for (Node node : nodes) {
+                if(node.getId() == menuId){
+                    node.setChecked(true);
+                }
+            }
+        }
+        //组装成一个树结构返回
+        String result = treeBuilder.buildTree(nodes);
+        return result;
+    }
+
+
 
     /**
      * 静态页面的跳转菜单页面

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Component("treeBuilder")
 public class TreeBuilder {
+    //创建一个List存放树结点
     List<Node> nodes = new ArrayList<>();
 
     public String buildTree(List<Node> nodes) {
@@ -35,7 +36,9 @@ public class TreeBuilder {
         List<Node> treeNodes = new ArrayList<>();
         List<Node> rootNodes = getRootNodes();
         for (Node rootNode : rootNodes) {
+            //构建子节点
             buildChildNodes(rootNode);
+            //添加根节点
             treeNodes.add(rootNode);
         }
         return treeNodes;

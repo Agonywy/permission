@@ -1,6 +1,7 @@
 package com.yanzhen.controller;
 
 import com.yanzhen.pojo.Role;
+import com.yanzhen.pojo.RoleMenu;
 import com.yanzhen.service.IRoleService;
 import com.yanzhen.util.JsonObject;
 import com.yanzhen.util.R;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,10 +72,40 @@ public class RoleController {
     /**
      * 根据id删除角色
      */
-    void deleteRoleById(Integer id){
+    @RequestMapping("role/deleteRoleById")
+    @ResponseBody
+    R deleteRoleById(Integer id){
         roleService.deleteRoleById(id);
+        return R.ok();
+    }
+    /**
+     * 添加权限
+     * @param roleId:角色id
+     * @param ids: 选中的菜单权限的id
+     */
+    @RequestMapping("role/addPermSubmit")
+    @ResponseBody
+    public R addPermSubmit(int roleId, int[] ids){
+
+        roleService.deleteRoleById(roleId);
+        List<RoleMenu> list = new ArrayList<>();
+        for (int id : ids) {
+            RoleMenu roleMenu = new RoleMenu(roleId,id);
+            list.add(roleMenu);
+        }
+        roleService.insertFormEach(list);
+        return R.ok();
     }
 
+    /**
+     * 添加角色关联菜单权限跳转页面
+     * id : 角色Id
+     */
+    @RequestMapping("/addPerm")
+    public String addPerm(Integer id, Model model){
+        model.addAttribute("roleId",id);
+        return "pages/addPram";
+    }
 
     /**
      * 跳转静态页面role.html

@@ -37,4 +37,14 @@ public class IRoleServiceImpl implements IRoleService{
     public void deleteRoleById(Integer id) {
         roleDao.deleteRoleById(id);
     }
+
+    @Override
+    public void deleteRoleById(int id) {
+        roleDao.deleteRoleMenuByRoleId(id);
+    }
+
+    @Override
+    public void insertFormEach(List roleMenuList) {
+        roleDao.insertFormEach(roleMenuList);
+    }
 }

@@ -26,4 +26,15 @@ public interface IRoleService {
      * 根据id删除角色
      */
     void deleteRoleById(Integer id);
+
+    /**
+     * 先根据角色删除原来的关联关系权限
+     */
+    void deleteRoleById(int id);
+
+    /**
+     * 批量进行角色权限关联
+     */
+    void insertFormEach(List ids);
+
 }

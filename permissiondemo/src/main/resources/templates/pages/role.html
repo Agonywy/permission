@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>role</title>
+    <title>menu</title>
     <link rel="stylesheet"   th:href="@{lib/layui-v2.5.5/css/layui.css}"   media="all">
     <link rel="stylesheet"  th:href="@{css/public.css}"   media="all">
     <style>
@@ -16,7 +16,7 @@
 <body>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheakData">添加分类/角色</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheakData">添加角色</button>
     </div>
 </script>
 <div class="layuimini-container">
@@ -164,7 +164,21 @@
                     layer.full(index);
                 });
 
-            } else{
+            } else if(layEvent === 'perm'){
+                //关联权限
+                layer.msg("角色关联菜单权限");
+                //首先要打开form框
+                var index = layer.open({
+                    title: '关联权限',
+                    type: 2,
+                    shade: 0.2,
+                    area: ['50%', '50%'],
+                    content: 'addPerm?id='+data.id //设置当前角色的权限信息
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }else{
                 layer.msg("添加角色")
                 add('addRole?type='+data.type+'&parentId='+data.id);
             }

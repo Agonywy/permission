@@ -46,4 +46,15 @@
         </set>
         where id = #{id}
     </update>
+
+    <!--根据角色查询关联到的菜单集合-->
+    <select id="queryMenuByRoleId" parameterType="integer" resultType="com.yanzhen.pojo.RoleMenu">
+        select * from role_menu where role_id = #{id}
+    </select>
+
+
+<!--查询获取树状结构的菜单数据-->
+    <select id="queryMenuTree" resultType="com.yanzhen.pojo.Node">
+        select id, name as title,parent_id from menu order by type ASC
+    </select>
 </mapper>

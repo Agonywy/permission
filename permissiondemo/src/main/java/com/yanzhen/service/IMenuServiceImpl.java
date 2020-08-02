@@ -2,6 +2,8 @@ package com.yanzhen.service;
 
 import com.yanzhen.dao.IMenuDao;
 import com.yanzhen.pojo.Menu;
+import com.yanzhen.pojo.Node;
+import com.yanzhen.pojo.RoleMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,4 +40,16 @@ public class IMenuServiceImpl implements IMenuService{
     public void updateMenuSubmit(Menu menu) {
         menuDao.updateMenuSubmit(menu);
     }
+
+    @Override
+    public List<RoleMenu> queryMenuByRoleId(Integer roleId) {
+        return menuDao.queryMenuByRoleId(roleId);
+    }
+
+    @Override
+    public List<Node> queryMenuTree() {
+        return menuDao.queryMenuTree();
+    }
+
+
 }
