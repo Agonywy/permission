@@ -1,5 +1,6 @@
 package com.yanzhen.dao;
 
+import com.yanzhen.pojo.Node;
 import com.yanzhen.pojo.Role;
 import com.yanzhen.pojo.RoleMenu;
 import org.springframework.stereotype.Repository;
@@ -38,4 +39,6 @@ public interface IRoleDao {
      * 批量的添加权限关联
      */
     void insertFormEach(List<RoleMenu> roleMenuList);
+
+    List<Node> queryRoleTree();
 }

@@ -1,6 +1,7 @@
 package com.yanzhen.controller;
 
 import com.yanzhen.pojo.Dept;
+import com.yanzhen.pojo.Node;
 import com.yanzhen.service.IDeptService;
 import com.yanzhen.util.JsonObject;
 import com.yanzhen.util.R;
@@ -19,6 +20,17 @@ import java.util.List;
 public class DeptController {
     @Autowired
     private IDeptService deptService;
+
+    /**
+     * 部门树结构的渲染工作
+     */
+    @RequestMapping("queryDeptTree")
+    @ResponseBody
+    public Object queryDeptTree(){
+        List<Node> nodes = deptService.queryDeptTree();
+        return nodes;
+    }
+
 
     /**
      * 查询所有部门信息

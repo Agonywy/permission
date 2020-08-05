@@ -1,5 +1,6 @@
 package com.yanzhen.service;
 
+import com.yanzhen.pojo.Node;
 import com.yanzhen.pojo.Role;
 
 import java.util.List;
@@ -37,4 +38,8 @@ public interface IRoleService {
      */
     void insertFormEach(int roleId,int[] ids);
 
+    /**
+     * 查询角色树
+     */
+    List<Node> queryRoleTree();
 }

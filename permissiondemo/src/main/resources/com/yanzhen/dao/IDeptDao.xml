@@ -17,6 +17,10 @@
     <select id="queryDeptById" parameterType="integer" resultType="com.yanzhen.pojo.Dept">
         select * from dept;
     </select>
+    <!--查询部门树信息-->
+    <select id="queryDeptTree" resultType="com.yanzhen.pojo.Node">
+        select id,name as title,parent_id form dept order by type
+    </select>
 
     <!--修改部门信息-->
     <update id="updateDept" parameterType="com.yanzhen.pojo.Dept">

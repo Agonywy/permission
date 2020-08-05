@@ -23,7 +23,7 @@
         },
         {
           "title": "用户管理",
-          "href": "pages/user.html",
+          "href": "user",
           "icon": "fa fa-window-maximize",
           "target": "_self"
         },

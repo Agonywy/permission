@@ -1,5 +1,6 @@
 package com.yanzhen.controller;
 
+import com.yanzhen.pojo.Node;
 import com.yanzhen.pojo.Role;
 import com.yanzhen.service.IRoleService;
 import com.yanzhen.util.JsonObject;
@@ -125,5 +126,14 @@ public class RoleController {
         return R.ok();
     }
 
+    /**
+     * 查询角色树
+     */
+    @RequestMapping("queryRoleTree")
+    @ResponseBody
+    public Object queryRoleTree(){
+        List<Node> nodes = roleService.queryRoleTree();
+        return nodes;
+    }
 
 }

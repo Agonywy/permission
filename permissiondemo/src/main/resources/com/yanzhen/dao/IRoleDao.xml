@@ -49,5 +49,11 @@
         </foreach>
     </insert>
 
+    <!--查询树结构-->
+    <select id="queryRoleTree" resultType="com.yanzhen.pojo.Node">
+        select id,name as title,parent_id form role order by  type
+    </select>
+
+
 
 </mapper>

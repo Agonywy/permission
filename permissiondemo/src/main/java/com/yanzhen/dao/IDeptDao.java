@@ -1,12 +1,17 @@
 package com.yanzhen.dao;
 
 import com.yanzhen.pojo.Dept;
+import com.yanzhen.pojo.Node;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository("deptDao")
 public interface IDeptDao {
+    /**
+     * 查询部门树信息
+     */
+    List<Node> queryDeptTree();
     /**
      * 查询所有部门信息
      */

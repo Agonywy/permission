@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class User implements Serializable {
@@ -23,4 +24,7 @@ public class User implements Serializable {
     private Integer createBy;
     private Date createTime;
     private Date updateTime;
+    private String dname;   //用户所在部门的名称
+    //角色的id集合
+    private List roleIdList;
 }

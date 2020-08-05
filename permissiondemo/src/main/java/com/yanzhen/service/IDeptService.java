@@ -1,6 +1,7 @@
 package com.yanzhen.service;
 
 import com.yanzhen.pojo.Dept;
+import com.yanzhen.pojo.Node;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface IDeptService {
      * 根据id删除部门信息
      */
     void deleteDeptById(Integer id);
+
+    List<Node> queryDeptTree();
 }
