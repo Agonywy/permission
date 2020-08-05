@@ -1,0 +1,37 @@
+权限管理表结构：
+5张基本表
+1：用户表 id 用户名
+2：角色表 id 角色名称
+3：权限表 id 权限标识
+4：用户角色的关联表(多对多的关系) 用户id 角色id
+5: 角色权限的关联表(多对多的关系) 角色id 权限id
+
+扩展表：
+(1)对用户进行分组
+用户组：一个组中有多个用户,我们也可以设置用户表和用户组表之间的关联关系
+(2)对权限进行划分
+比如文件权限表，销售权限表，经理权限表
+这样我们也可以设置文件表与权限表之间的关联关系
+
+这个项目的表就是5张基本表+用户组这张扩展表
+(1)dept部门表,也就是用户组：
+id,parent_id(上级部门id),name,type,sort,status,update_time,create_by,create_time
+type:部门类型: 0:公司; 1:部门; 2:科室/小组
+sort:排序值,越小越靠前
+status: 0:正常; 1:禁用
+(2)user用户表
+id,dept_id(部门id),username,password,realname,sex,tel,email,avatar,job_title,status
+sort ,del_falg,create_by,create_time ,update_time
+avatar:头像  job_title:职务名称  status:用户状态 0正常;1禁用
+sort:排序值,越小越靠前  del_falg:删除标识,0未删除,1已删除
+(3)role角色表
+id,name(角色名称),parent_id,type,remarks,create_by,create_time,update_time
+type:类型 0分类,1角色   parent_id:父级id   remarks:备注
+(4)user_role  角色关联表
+id,user_id,role_id
+(5)menu菜单表
+id,parent_id,name,url,permission,type,icon,status,sort,status,create_by,create_time,update_time
+parent_id:父级菜单  url:菜单url    type: 0目录 1菜单 2按钮 3导航菜单
+permission:授权标识,多个用逗号分隔,如:userlist,usercreate   icon图标
+(6)role_menu 角色菜单关联表
+id, role_id, menu_id

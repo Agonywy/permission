@@ -1,0 +1,24 @@
+用户管理功能需求
+功能列表
+(1)首先分页查询,按条件模糊查询
+你有没有使用到多表查询?
+在用户管理模块中,我们查询用户信息的时候,还会查询他所在部门的相关信息进行展示,在mapper中就对用户表和部门表进行了关联操作
+这里我们通过where标签和if标签,把查询与模糊查询放在了同一个sql语句中,如果username不为null,或者电话tel不为null,此时追加where子句完成模糊查询
+分页在service中完成：PageInfo<User> findUserAll(int page,int pageSize,User user);
+之前引入了Mybatis的插件pageHelper,所以在分页这里我是直接使用PageInfo类来封装User,最后将PageInfo对象返回就可以
+@Override
+public PageInfo<User> findUserAll(int page, int pageSize, User user) {
+    PageHelper.startPage(page, pageSize);//使用分页插件
+    //查询所有的用户信息
+    List<User> list = userDao.queryUserAll(user);
+    PageInfo<User> pageInfoList = new PageInfo<>(list);
+    return pageInfoList;
+}
+
+(2)添加用户:添加部门,角色,性别,手机,邮箱,职业,状态,排序号等信息,状态：0正常 1禁用
+一个用户关联一个部门,一个用户可以有多个角色
+(3)用户信息的修改操作
+(4)用户删除,可以单个删除也可以批量删除
+
+(1)用户的查询功能
+

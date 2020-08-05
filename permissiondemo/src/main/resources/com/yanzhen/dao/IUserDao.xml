@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzhen.dao.IUserDao">
+
+    <!--用户的添加-->
+    <insert id="addUser" parameterType="com.yanzhen.pojo.User">
+        <!--获取新增记录的id-->
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+        insert into user(dept_id, username, password, realname, sex, tel, email, avatar, job_title,status,sort)
+        values(#{deptId},#{username},'123456',#{realname},#{sex},#{tel},#{email},#{avatar},#{jobTitle},#{status},#{sort})
+    </insert>
+    <!--用户和角色的关联关系-->
+    <insert id="addUserRole" parameterType="com.yanzhen.pojo.UserRole">
+        insert into user_role(user_id, role_id) values
+        <foreach collection="list" item="userRole" index="index" separator=",">
+            (#{userRole.roleId},#{userRole.userId})
+        </foreach>
+    </insert>
+
+    <select id="queryUserAll" parameterType="com.yanzhen.pojo.User" resultType="com.yanzhen.pojo.User">
+        select u.id,u.realname,u.username,u.sex,u.tel,u.status,d.name as dname
+        from user u left join dept d on u.dept_id=d.id
+        <where>
+            <if test="username!=null and username!=''">
+                and username like  "%${username}%"
+            </if>
+            <if test="tel!=null and tel!=''">
+                and tel like  "%${tel}%"
+            </if>
+        </where>
+    </select>
+</mapper>
