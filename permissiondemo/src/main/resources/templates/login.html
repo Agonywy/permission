@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>后台管理-登陆</title>
@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet"   th:href="@{lib/layui-v2.5.5/css/layui.css}"   media="all">
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -35,27 +35,27 @@
 <div class="layui-container">
     <div class="admin-login-background">
         <div class="layui-form login-form">
-            <form class="layui-form" action="">
+            <!--action="/loginIn",提交到后台登录处理中去-->
+            <form class="layui-form" action="/loginIn" method="post">
                 <div class="layui-form-item logo-title">
                     <h1>权限后台登录</h1>
+                    <span th:text="${msg}" style="color: red"></span>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-username" for="username"></label>
+                    <label class="layui-icon layui-icon-username"></label>
                     <input type="text" name="username" lay-verify="required|account" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="admin">
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-password" for="password"></label>
+                    <label class="layui-icon layui-icon-password" ></label>
                     <input type="password" name="password" lay-verify="required|password" placeholder="密码" autocomplete="off" class="layui-input" value="123456">
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-vercode" for="captcha"></label>
-                    <input type="text" name="captcha" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">
+                    <label class="layui-icon layui-icon-vercode" ></label>
+                    <input type="text" name="code" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">
                     <div class="captcha-img">
-                        <img id="captchaPic" src="../images/captcha.jpg">
+                        <!--验证码-->
+                        <a href="javascript:void(0)" onclick="getCode()"><img id="code" ></a>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
                 </div>
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
@@ -64,10 +64,44 @@
         </div>
     </div>
 </div>
-<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
-<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
-<script src="../lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
+
+<script th:src="@{lib/layui-v2.5.5/layui.js}"  charset="utf-8"></script>
+<script th:src="@{lib/jquery-3.4.1/jquery-3.4.1.min.js}"  charset="utf-8"></script>
+<script th:src="@{lib/jq-module/jquery.particleground.min.js}"  charset="utf-8"></script>
 <script>
+
+    getCode();
+
+    /**
+     * 获取验证码
+     * 我们需要验证码不断的刷新,所以不能直接去获取地址信息
+     * 所以通过时间戳来实现验证码的刷新
+     */
+    function getCode(){
+        //verifyCode:后台获取验证码的方法
+        document.getElementById("code").src=timestamp("verifyCode");
+    }
+
+    /**
+     * 实现刷新更换验证码
+     * 为了验证码不断的刷新,所以引入了时间戳来实现刷新
+     * 传入的参数应该是一个地址信息url
+     */
+    function timestamp(url){
+        //获取当前时间
+        var gettime=new Date().getTime();
+        //如果地址信息已经存在,就直接将url拼接当前时间
+        if(url.indexOf("?")>-1){
+            url=url+"&timestamp="+gettime;
+        }
+        //如果不存在,
+        else{
+            url=url+"?timestamp="+gettime;
+        }
+        return url;
+    }
+
+
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -83,26 +117,26 @@
             });
         });
 
-        // 进行登录操作
-        form.on('submit(login)', function (data) {
-            data = data.field;
-            if (data.username == '') {
-                layer.msg('用户名不能为空');
-                return false;
-            }
-            if (data.password == '') {
-                layer.msg('密码不能为空');
-                return false;
-            }
-            if (data.captcha == '') {
-                layer.msg('验证码不能为空');
-                return false;
-            }
-            layer.msg('登录成功', function () {
-                window.location = '../index.html';
-            });
-            return false;
-        });
+        // // 进行登录操作
+        // form.on('submit(login)', function (data) {
+        //     data = data.field;
+        //     if (data.username == '') {
+        //         layer.msg('用户名不能为空');
+        //         return false;
+        //     }
+        //     if (data.password == '') {
+        //         layer.msg('密码不能为空');
+        //         return false;
+        //     }
+        //     if (data.captcha == '') {
+        //         layer.msg('验证码不能为空');
+        //         return false;
+        //     }
+        //     layer.msg('登录成功', function () {
+        //         window.location = '../index.html';
+        //     });
+        //     return false;
+        // });
     });
 </script>
 </body>

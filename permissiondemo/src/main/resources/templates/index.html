@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>后台管理系统</title>
@@ -60,7 +60,10 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">admin</a>
+                    <!--在主页中显示用户名,是通过session拿出来的
+                    session存储再服务器上,用来保存对象信息的(用户信息)
+                    -->
+                    <a href="javascript:;"><span th:text="${session.user.username}"></span></a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
@@ -72,7 +75,7 @@
                             <hr>
                         </dd>
                         <dd>
-                            <a href="javascript:;" class="login-out">退出登录</a>
+                            <a href="/logOut" class="login-out">退出登录</a>
                         </dd>
                     </dl>
                 </li>

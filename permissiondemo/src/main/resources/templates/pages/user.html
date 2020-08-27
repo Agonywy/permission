@@ -128,17 +128,18 @@
                     layer.full(index);
                 });
             } else if (obj.event === 'delete') {  // 监听删除操作
-                // var checkStatus = table.checkStatus('currentTableId')
-                //     , data = checkStatus.data;
-                // layer.alert(JSON.stringify(data));
-                //选中信息
+
+                //选中信息data
                 var checkStatus=table.checkStatus(obj.config.id);
                 var data=checkStatus.data;
                 console.log(data);
-                if(data.length==0){//如果没有选择
+                if(data.length==0){
+                    //如果没有选择,提示请选择要删除的记录信息
                     layer.msg("请选择要删除的记录信息");
                 }else{//删除工作
-                    //获取ids
+                    //对data进行遍历获取选中的id集合ids
+                    //将选中的id的集合以,逗号拼接传给后台
+                    //后台再用,逗号分割,拿到数组,转成集合去处理
                     var ids=getCheckId(data);
                     console.log(ids);
                     layer.confirm('你真的要删除吗？',function (index) {
@@ -161,14 +162,14 @@
             return arr.join(",");
         }
         /**
-         * 根据id删除记录信息
+         * 根据id删除用户信息
          */
         function deleteUserByIds(ids,index){
             //向后台发送数据并进行添加操作
             $.ajax({
                 url:"user/deleteUserByIds",
                 type:"POST",
-                data:{'ids':ids},
+                data:{'ids':ids},   //选择的需要删除的用户的id集合
                 success:function(result){
                     if(result.code==200){
                         layer.msg("删除成功",{
@@ -213,6 +214,7 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
                     //调用删除函数实现删除功能
+                    //和批量删除操作一样,只不过id集合中只有一个id而已
                     deleteUserByIds(data.id, index);
                 });
             }

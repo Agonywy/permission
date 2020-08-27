@@ -20,6 +20,22 @@
             (#{userRole.roleId},#{userRole.userId})
         </foreach>
     </insert>
+    <!--  批量删除功能
+      删除用户的时候应该把用户对应的角色也给删除掉-->
+    <delete id="deleteUserByIds" parameterType="list">
+        delete from user where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+    <!--删除用户关联到的用户角色信息-->
+    <delete id="deleteUserRoleByUserIds" parameterType="list">
+        delete form user_role where user_id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+
+    </delete>
 
     <select id="queryUserAll" parameterType="com.yanzhen.pojo.User" resultType="com.yanzhen.pojo.User">
         select u.id,u.realname,u.username,u.sex,u.tel,u.status,d.name as dname
@@ -33,4 +49,37 @@
             </if>
         </where>
     </select>
+<!--  根据id查询用户信息  -->
+    <select id="queryUserById" parameterType="integer" resultType="com.yanzhen.pojo.User">
+        select * from user where id = #{id}
+    </select>
+
+    <!--  修改用户的基本信息,这里没有实现修改用户的角色信息和权限信息-->
+    <update id="updateUserSubmit" parameterType="com.yanzhen.pojo.User">
+        update user
+        <set>
+            <if test="username!=null and username!=''">
+                username = #{username},
+            </if>
+            <if test="realname!=null and realname!=''">
+                realname = #{realname},
+            </if>
+            <if test="tel!=null and tel!=''">
+                tel = #{tel},
+            </if>
+            <if test="email!=null and email!=''">
+                email = #{email},
+            </if>
+            <if test="status!=null and status!=''">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--根据用户名和密码查询用户对象-->
+    <select id="queryInfoByUsernameAndPassword" resultType="com.yanzhen.pojo.User">
+        select * from user
+        where username = #{username} and password = #{password}
+    </select>
+
 </mapper>

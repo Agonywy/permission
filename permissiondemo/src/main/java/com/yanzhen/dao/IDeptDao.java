@@ -9,10 +9,6 @@ import java.util.List;
 @Repository("deptDao")
 public interface IDeptDao {
     /**
-     * 查询部门树信息
-     */
-    List<Node> queryDeptTree();
-    /**
      * 查询所有部门信息
      */
     List<Dept> queryDeptAll();
@@ -33,4 +29,8 @@ public interface IDeptDao {
      * 根据id删除部门信息
      */
     void deleteDeptById(Integer id);
+    /**
+     * 查询部门树信息
+     */
+    List<Node> queryDeptTree();
 }

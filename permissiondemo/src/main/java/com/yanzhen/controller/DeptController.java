@@ -20,18 +20,6 @@ import java.util.List;
 public class DeptController {
     @Autowired
     private IDeptService deptService;
-
-    /**
-     * 部门树结构的渲染工作
-     */
-    @RequestMapping("queryDeptTree")
-    @ResponseBody
-    public Object queryDeptTree(){
-        List<Node> nodes = deptService.queryDeptTree();
-        return nodes;
-    }
-
-
     /**
      * 查询所有部门信息
      */
@@ -46,6 +34,16 @@ public class DeptController {
         object.setCount((long)list.size());
         object.setData(list);
         return object;
+    }
+
+    /**
+     * 部门树结构的渲染工作
+     */
+    @RequestMapping("queryDeptTree")
+    @ResponseBody
+    public Object queryDeptTree(){
+        List<Node> nodes = deptService.queryDeptTree();
+        return nodes;
     }
 
     //添加部门信息(提交)

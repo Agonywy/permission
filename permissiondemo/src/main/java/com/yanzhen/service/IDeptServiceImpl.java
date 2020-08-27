@@ -17,6 +17,7 @@ public class IDeptServiceImpl implements IDeptService {
     @Autowired
     private TreeBuilder treeBuilder;
 
+    /**查询所有的部门信息*/
     @Override
     public List<Dept> queryDeptAll() {
         return deptDao.queryDeptAll();

@@ -30,10 +30,6 @@ public class IUserServiceImpl implements IUserService{
         return pageInfoList;
     }
 
-    @Override
-    public void updateUserSubmit(User user) {
-
-    }
 
     @Override
     public void addUser(User user) {
@@ -52,14 +48,30 @@ public class IUserServiceImpl implements IUserService{
 
     @Override
     public void deleteUserInfoByIds(List list) {
-
+        //删除用户信息
+        userDao.deleteUserByIds(list);
+        //删除用户关联的角色信息
+        userDao.deleteUserRoleByUserIds(list);
     }
 
     @Override
     public User queryUserById(Integer id) {
-        return null;
+        return userDao.queryUserById(id);
     }
 
+    @Override
+    public void updateUserSubmit(User user) {
+        userDao.updateUserSubmit(user);
+    }
+
+
+    /**
+     * 判断用户名和密码是否正确
+     */
+    @Override
+    public User queryInfoByUsernameAndPassword(String username, String password) {
+        return userDao.queryInfoByUsernameAndPassword(username,password);
+    }
 
 
 }
